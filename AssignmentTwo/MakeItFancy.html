@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Friggin' Fabulously Fancy </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+    <script src="main.js"></script>
+</head>
+<style>
+    body{
+        background-color: bisque;
+    }
+
+    p{
+        border: 2px groove aqua;
+    }
+
+    .blueP{
+        color: blue;
+    }
+
+    .redP{
+        color: red;
+    }
+
+    ol{
+        list-style-type: upper-roman; 
+    }
+
+    h1, h5{
+        font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        color: yellowgreen;
+        border: 2px groove red;
+        border-radius: 5px;
+        text-align: center;
+        margin-left: 25%;
+        margin-right: 25%;
+        background-color: black;
+    }
+
+    #theParagraphHouse{
+        display: grid;
+        grid-column: 2 / 4;
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: 20% 20% 20% 20% 20%;
+    }
+</style>
+<body>
+    <h1>The flippin' dippin' lickin' delicious site</h1>
+    <h5>(Only the BEST colors)</h5>
+    <div id="theParagraphHouse">
+        <p class="blueP">I'm a Blue paragraph!</p>
+        <p class="redP">I'm a Red paragraph!</p>
+        <p class="blueP">I'm a Blue paragraph!</p>
+        <p class="redP">I'm a Red paragraph!</p>
+        <p class="blueP">I'm a Blue paragraph!</p>
+        <p class="repP">I'm a Red paragraph!</p>
+    </div>
+</body>
+</html>
