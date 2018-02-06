@@ -42,9 +42,14 @@
 
     #theParagraphHouse{
         display: grid;
+        grid-template-columns: repeat(5, 1fr);
         grid-column: 2 / 4;
-        grid-template-columns: repeat(3, 1fr);
         grid-template-rows: 20% 20% 20% 20% 20%;
+    }
+
+    #theListHouse{
+        display: grid;
+        
     }
 </style>
 <body>
@@ -56,7 +61,12 @@
         <p class="blueP">I'm a Blue paragraph!</p>
         <p class="redP">I'm a Red paragraph!</p>
         <p class="blueP">I'm a Blue paragraph!</p>
-        <p class="repP">I'm a Red paragraph!</p>
+        <p class="redP">I'm a Red paragraph!</p>
     </div>
+    <ol>
+        <li class="blueP">This is a one in roman numerals</li>
+        <li class="redP">This is a two in roman numerals</li>
+        <li class="blueP">This is a three in roman numerals</li>
+    </ol>
 </body>
 </html>
