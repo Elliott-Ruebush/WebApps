@@ -13,14 +13,16 @@
         border: 5px double black
     }
 </style>
+
 <body>
     <h1 id='mainHeading'>Welcome to the beautiful background color changer</h1>
     <p id='firstParagraph'>Hello world!</p>
     <p id='secondParagraph'>MORE HELLO WORLD</p>
-    <button onclick='unleashColorHell()'>Unleash color hell!!!</button>
+    <button id="Unleasher">Unleash color hell!!!</button>
     <button onclick='unleashSynchronizedColorHell()'>Make it in sync</button>
-    <button onclick='clearInterval(helpPlease)'>Make it stop</button>
-    <table>
+    <button id="Stopper">Make it stop</button>
+    <button onclick='location.reload()'>Reset everything and pretend it's all ok</button>
+    <table id="tableContainer">
         <tr>
             <th id="OneOne"></th>
             <th id="TwoOne"></th>
@@ -50,8 +52,27 @@
 <script>
     //I don't think this is what I'm supposed to do but it works, this is just making sure that the I can access the helpPlease variable from anywhere in the script
     var helpPlease;
+    var otherHelpMe;
+    document.getElementById('Unleasher').onclick = unleashColorHell;    
+    document.getElementById('Stopper').onclick = stopBothMaybe;
 
-    function assignRandomColor() {
+    function stopBothMaybe(){
+        clearInterval(helpPlease);
+        clearInterval(otherHelpMe);
+    }
+    
+    function assignRandomColorFromNodes() {
+        var hexCode = "";
+        var hexBasesArr = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'];
+        for (i = 0; i < 6; i++) {
+            hexCode = hexCode.concat(hexBasesArr[Math.floor(Math.random() * 16)]);
+        }
+        hexCode = '#' + hexCode;
+        console.log(hexCode);
+        getRandomNode().style.backgroundColor = hexCode;
+    }
+
+    function assignRandomColorFromID(){
         var hexCode = "";
         var hexBasesArr = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'];
         for (i = 0; i < 6; i++) {
@@ -62,7 +83,19 @@
         document.getElementById(getRandomID()).style.backgroundColor = hexCode;
     }
 
-    function getRandomID() {
+    function getRandomNode() {
+        /*
+        Returns a random node from the table
+        */
+        var documentNodeArr = [];
+        var nodes = document.getElementById('tableContainer').childNodes;
+        for (var i = 0; i < nodes.length; i++) {
+            documentNodeArr.push(nodes[i]);
+        }
+        return documentNodeArr[Math.floor(Math.random() * documentNodeArr.length)];
+    }
+
+    function getRandomID(){
         /*
         This code calls a function to return a collection of all IDs in the document, 
         then it maps the IDs in that collection to an array. Following the creation of 
@@ -77,15 +110,18 @@
         return documentIDArr[Math.floor(Math.random() * documentIDArr.length)];
     }
 
-    function unleashColorHell(){
-        helpPlease = setInterval(assignRandomColor, .01)
+    function unleashColorHell() {
+        otherHelpMe = setInterval(assignRandomColorFromID, 1);
     }
 
-    function unleashSynchronizedColorHell(){
-        //NEEDS TO SIMULTANEOUSLY ASSIGN RANDOM COLORS TO EACH TABLE ELEMENT
+    function unleashSynchronizedColorHell() {
+        //NEEDS TO SIMULTANEOUSLY ASSIGN RANDOM COLORS TO EACH TABLE ELEMENT 
+
+        //UPDATE 2/9/2018 WHY ARE YOU LIKE THIS JAVASCRIPT
+        helpPlease = setInterval(assignRandomColorFromNodes, 10);
     }
 
-    
+
 </script>
 
 </html>
