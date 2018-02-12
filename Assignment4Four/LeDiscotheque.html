@@ -6,22 +6,114 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Color Changing Creation</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
 </head>
 <style>
     th {
         padding: 60px;
         border: 5px double black
     }
+
+    body {
+        font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .mainHeading {
+        text-align: center;
+        border: 3px ridge rgb(129, 50, 50);
+        background-color: rgba(60, 145, 214, 0.5);
+    }
+
+    .strokeText {
+        color: black;
+        /*The below text-shadow is some clever css adapted from https://stackoverflow.com/questions/4919076/outline-effect-to-text*/
+        text-shadow: -1px -1px 0 white,
+        1px -1px 0 white,
+        -1px 1px 0 white,
+        1px 1px 0 white;
+    }
+
+    .buttonWrapper {
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        grid-template-rows: none;
+    }
+
+    .randomIDSelectionDisco {
+        grid-column: 3 / 4;
+        padding: 10px;
+        background-color: rgba(0, 0, 255, 0.705);
+        
+    }
+
+    .randomIDSelectionDisco:hover{
+        background-color: rgba(157, 255, 0, 0.308);
+    }
+
+    .syncSameColorChange {
+        grid-column: 4 / 5;
+        padding: 10px;
+        background-color: rgb(1, 163, 212);
+    }
+
+    .syncSameColorChange:hover{
+        background-color: rgba(157, 255, 0, 0.308);
+    }
+
+    .stopAllIntervals {
+        grid-column: 3 / 5;
+        background-color: rgba(234, 0, 255, 0.548);
+        padding: 20px;
+    }
+
+    .stopAllIntervals:hover{
+        background-color: rgba(157, 255, 0, 0.308);
+    }
+
+    .lastResort {
+        grid-column: 3 / 5;
+        background-color: rgba(255, 0, 0, 0.719);
+        padding: 20px;
+    }
+
+    .lastResort:hover {
+        background-color: rgba(157, 255, 0, 0.308);
+    }
+
+    .tableHeader {
+        text-align: center;
+    }
+
+    #tableContainer {
+        margin: auto;
+        width: 50%;
+    }
+
+    .gridHeader {
+        text-align: center;
+    }
+
+    .gridWrapper {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-template-rows: repeat(4, 1fr);
+        border: 5px black;
+    }
 </style>
 
 <body>
-    <h1 id='mainHeading'>Welcome to the beautiful background color changer</h1>
-    <p id='firstParagraph'>Hello world!</p>
-    <p id='secondParagraph'>MORE HELLO WORLD</p>
-    <button id="Unleasher">Unleash color hell!!!</button>
-    <button onclick='unleashSynchronizedColorHell()'>Make it in sync</button>
-    <button id="Stopper">Make it stop</button>
-    <button onclick='location.reload()'>Reset everything and pretend it's all ok</button>
+    <div class="strokeText">
+        <h1 class='mainHeading'>Welcome to the beautiful background color changer</h1>
+    </div>
+    <div class="strokeText">
+        <div class="buttonWrapper">
+            <button class="randomIDSelectionDisco">Random one-by-one hex code colors for each part of the table</button>
+            <button class="syncSameColorChange">One random hex code color applied to every element in table simultaneously</button>
+            <button class="stopAllIntervals">Stop all intervals</button>
+            <button class="lastResort">Reload the page</button>
+        </div>
+    </div>
+    <h2 class="tableHeader">The Disco Dance Floor</h2>
     <table id="tableContainer">
         <tr>
             <th id="OneOne"></th>
@@ -48,20 +140,42 @@
             <th id="FourFour"></th>
         </tr>
     </table>
-</body>
-<script>
-    //I don't think this is what I'm supposed to do but it works, this is just making sure that the I can access the helpPlease variable from anywhere in the script
-    var helpPlease;
-    var otherHelpMe;
-    document.getElementById('Unleasher').onclick = unleashColorHell;    
-    document.getElementById('Stopper').onclick = stopBothMaybe;
+    <!-- TODO: ADD A GRID BECAUSE GRIDS ARE BETTER THAN TABLES -->
+    <h2 class="gridHeader"></h2>
+    <div class="gridWrapper">
 
-    function stopBothMaybe(){
-        clearInterval(helpPlease);
-        clearInterval(otherHelpMe);
-    }
-    
-    function assignRandomColorFromNodes() {
+    </div>
+</body>
+<!-- Stupid autoformat keeps messing this script tag up if it's not separated -->
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
+<script>
+    //SCREW VANILLA JS WE JQUERYING (actually we're creating some sort of horrific amalgamation)
+    $(document).ready(function () {
+        console.log("Hello world!");
+        //Initialize an array to keep track of all our intervals
+        var intervalsArr = [];
+        $(".randomIDSelectionDisco").click(function () {
+            intervalsArr.push(setInterval(assignRandomColorFromID, 10));
+        });
+
+        $(".syncSameColorChange").click(function () {
+            intervalsArr.push(setInterval(assignRandomColorFromNodes, 100));
+        });
+
+        $(".stopAllIntervals").click(function () {
+            console.log(intervalsArr);
+            for (var i = 0; i < intervalsArr.length; i++) {
+                clearTimeout(intervalsArr[i]);
+            }
+        });
+
+        $(".lastResort").click(function () {
+            location.reload();
+        })
+    });
+
+    var assignRandomColorFromNodes = function () {
+        // Occasionally often fails to properly function
         var hexCode = "";
         var hexBasesArr = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'];
         for (i = 0; i < 6; i++) {
@@ -72,7 +186,7 @@
         getRandomNode().style.backgroundColor = hexCode;
     }
 
-    function assignRandomColorFromID(){
+    var assignRandomColorFromID = function () {
         var hexCode = "";
         var hexBasesArr = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'];
         for (i = 0; i < 6; i++) {
@@ -95,7 +209,7 @@
         return documentNodeArr[Math.floor(Math.random() * documentNodeArr.length)];
     }
 
-    function getRandomID(){
+    function getRandomID() {
         /*
         This code calls a function to return a collection of all IDs in the document, 
         then it maps the IDs in that collection to an array. Following the creation of 
@@ -109,19 +223,6 @@
         });
         return documentIDArr[Math.floor(Math.random() * documentIDArr.length)];
     }
-
-    function unleashColorHell() {
-        otherHelpMe = setInterval(assignRandomColorFromID, 1);
-    }
-
-    function unleashSynchronizedColorHell() {
-        //NEEDS TO SIMULTANEOUSLY ASSIGN RANDOM COLORS TO EACH TABLE ELEMENT 
-
-        //UPDATE 2/9/2018 WHY ARE YOU LIKE THIS JAVASCRIPT
-        helpPlease = setInterval(assignRandomColorFromNodes, 10);
-    }
-
-
 </script>
 
 </html>
