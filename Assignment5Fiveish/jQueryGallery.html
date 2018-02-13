@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>jQuery Image Gallery</title>
+</head>
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $.get("https://www.reddit.com/r/Baking/", function (response) {
+            console.log(response);
+        })
+        $("#getTopSixPics").click(function () {
+            $.getJSON('http://www.whateverorigin.org/get?url=' + encodeURIComponent('https://www.reddit.com/r/Baking/top/') + '&callback=?', function(data){
+                console.log(data.contents);
+            });
+        });
+        var anImageURL = response.replace(/<thead>[\s|\S]*?<\/thead>/g).match(/<tr>/g);
+    });
+</script>
+<style>
+    .mainHeading {
+        text-align: center;
+        border: 3px ridge rgb(129, 50, 50);
+        background-color: rgba(60, 145, 214, 0.5);
+    }
+
+    .galleryWrapper {
+        margin-left: 20%;
+        margin-right: 20%;
+        text-align: center;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(2, 1fr);
+    }
+</style>
+
+<body>
+    <h1 class="mainHeading">Check out these jquery images</h1>
+    <button id="getTopSixPics">Get the top 6 images from r/baking (WIP)</button>
+    <div class="galleryWrapper">
+        <div class="img1">eee</div>
+        <div class="img2">eee</div>
+        <div class="img3">eee</div>
+        <div class="img4">eee</div>
+        <div class="img5">eee</div>
+        <div class="img6">eee</div>
+    </div>
+</body>
+
+</html>
