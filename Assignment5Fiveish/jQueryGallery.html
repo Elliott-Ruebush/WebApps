@@ -8,17 +8,40 @@
     <title>jQuery Image Gallery</title>
 </head>
 <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.js"></script>
 <script>
     $(document).ready(function () {
-        $.get("https://www.reddit.com/r/Baking/", function (response) {
-            console.log(response);
+        $.get("https://www.reddit.com/r/Baking/top/.json?limit=6", function (response) {
+            console.log(response.data.children[0].data);
         })
         $("#getTopSixPics").click(function () {
-            $.getJSON('http://www.whateverorigin.org/get?url=' + encodeURIComponent('https://www.reddit.com/r/Baking/top/') + '&callback=?', function(data){
-                console.log(data.contents);
+            console.log("WE LOVE JS");
+            // let limit = $("#postAmountInput").html
+            let limit = 6;
+            $.get("https://www.reddit.com/r/Baking/top/.json?limit=" + limit, function (response) {
+                thumbNailsArr = [];
+                for (i = 0; i < limit; i++) {
+                    thumbNailsArr.push(response.data.children[i].data.thumbnail)
+                    console.log("Thumbnail Element: " + thumbNailsArr[i]);
+                    $(".img" + i).html('<img src="' + thumbNailsArr[i] + '" height="100" width="100"></img>');
+                }
+
+                imagesArr = [];
+                for (i = 0; i < limit; i++) {
+                    imagesArr.push(response.data.children[i].data.url);
+                }
+                imagesArr.forEach(element => {
+                    console.log("Image Element: " + element);
+                });
+                for (let i = 0; i < limit; i++) {
+                    $(".img" + i).click(function () {
+                        $("#dialog").html('<img src="' + imagesArr[i] + '" height="1000" width="1000"></img>')
+                    });
+                }
+
+
             });
         });
-        var anImageURL = response.replace(/<thead>[\s|\S]*?<\/thead>/g).match(/<tr>/g);
     });
 </script>
 <style>
@@ -39,16 +62,19 @@
 </style>
 
 <body>
-    <h1 class="mainHeading">Check out these jquery images</h1>
-    <button id="getTopSixPics">Get the top 6 images from r/baking (WIP)</button>
+    <h1 class="mainHeading">Check out these jquery images (Only works for certain links so some images may be missing)</h1>
+    <label for="postAmountInput"></label>
+    <input type="text" id="postAmountInput">
+    <button id="getTopSixPics">Get the top images from r/baking (WIP)</button>
     <div class="galleryWrapper">
+        <div class="img0">eee</div>
         <div class="img1">eee</div>
         <div class="img2">eee</div>
         <div class="img3">eee</div>
         <div class="img4">eee</div>
         <div class="img5">eee</div>
-        <div class="img6">eee</div>
     </div>
+    <div id="dialog">JOEWOEIW</div>
 </body>
 
 </html>
