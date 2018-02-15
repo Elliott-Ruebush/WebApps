@@ -8,16 +8,26 @@
     <title>jQuery Image Gallery</title>
 </head>
 <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.js"></script>
 <script>
     $(document).ready(function () {
-        $.get("https://www.reddit.com/r/Baking/top/.json?limit=6", function (response) {
-            console.log(response.data.children[0].data);
-        })
+        console.log("Hello world!");
+
+        var updateSubmitButton = () => {
+            var currentInputVal = $("#postAmountInput").val();
+            console.log("Test: " + currentInputVal);
+            $("#getTopSixPics").html("Get the top " + currentInputVal + " image(s) from r/baking");
+        }
+        var buttonUpdateInterval = window.setInterval(updateSubmitButton, 250);
+
         $("#getTopSixPics").click(function () {
             console.log("WE LOVE JS");
-            // let limit = $("#postAmountInput").html
-            let limit = 6;
+            //clear images
+            for (i = 0; i < 6; i++) {
+                $(".img" + i).html("");
+            }
+            let limit = $("#postAmountInput").val();
+            console.log("Limit is: " + limit);
+
             $.get("https://www.reddit.com/r/Baking/top/.json?limit=" + limit, function (response) {
                 thumbNailsArr = [];
                 for (i = 0; i < limit; i++) {
@@ -35,7 +45,7 @@
                 });
                 for (let i = 0; i < limit; i++) {
                     $(".img" + i).click(function () {
-                        $("#dialog").html('<img src="' + imagesArr[i] + '" height="1000" width="1000"></img>')
+                        $("#dialog").html('<img src="' + imagesArr[i] + '"></img>')
                     });
                 }
 
@@ -51,6 +61,7 @@
         background-color: rgba(60, 145, 214, 0.5);
     }
 
+
     .galleryWrapper {
         margin-left: 20%;
         margin-right: 20%;
@@ -59,22 +70,43 @@
         grid-template-columns: repeat(3, 1fr);
         grid-template-rows: repeat(2, 1fr);
     }
+
+    .disclaimer{
+        text-align: center;
+    }
+
+    img {
+        max-width: 1000px;
+        max-height: 1000px;
+    }
+
+    #dialog {
+        margin-left: 25%;
+        margin-right: 25%;
+    }
+
+    #footer{
+        margin-top: 33%;
+    }
 </style>
 
 <body>
-    <h1 class="mainHeading">Check out these jquery images (Only works for certain links so some images may be missing)</h1>
-    <label for="postAmountInput"></label>
-    <input type="text" id="postAmountInput">
-    <button id="getTopSixPics">Get the top images from r/baking (WIP)</button>
-    <div class="galleryWrapper">
-        <div class="img0">eee</div>
-        <div class="img1">eee</div>
-        <div class="img2">eee</div>
-        <div class="img3">eee</div>
-        <div class="img4">eee</div>
-        <div class="img5">eee</div>
+    <h1 class="mainHeading">Check out these jquery images!!!!</h1>
+    <h2 class="mainHeading">Use the fun and exciting slider to choose how many image to display (1-6), then click the thumbnails to show a larger version of the image</h2>
+    <p class="disclaimer">Of course full images will have issues if someone's gone and made some weirdly formatted post...</p> 
+    <div id="submissionWrapper">
+        <input type="range" id="postAmountInput" min="1" max="6">
+        <button id="getTopSixPics">Get the top 4 image(s) from r/baking</button>
     </div>
-    <div id="dialog">JOEWOEIW</div>
+    <div class="galleryWrapper">
+        <div class="img0"></div>
+        <div class="img1"></div>
+        <div class="img2"></div>
+        <div class="img3"></div>
+        <div class="img4"></div>
+        <div class="img5"></div>
+    </div>
+    <div id="dialog"></div>
 </body>
-
+<footer id="footer">CSS FORMATTING IS FOR NERDS</footer>
 </html>
